@@ -2,9 +2,9 @@
     <div class="sideBox">
         <div class="sideBox__mask" :class="{ 'sideBox__mask--show': sideBoxOpen}" @click="closeSideBox"></div>
         <div class="sideBox__main" :class="{ 'sideBox__main--open': sideBoxOpen}">
-            <img src="https://img.imhjm.com/touxiang.png" alt="" class="sideBox__img" @click="backToIndex">
-            <p class="sideBox__name">小深刻的秋鼠</p>
-            <p class="sideBox__motto">Love Life, Love sharing</p>
+            <img src="http://image.jiantuku.com/17-7-23/66561382.jpg?e=1537369210&token=el7kgPgYzpJoB23jrChWJ2gV3HpRl0VCzFn8rKKv:u06Y6hG2qua71N7w41I09ON4SYY=" alt="" class="sideBox__img" @click="backToIndex">
+            <p class="sideBox__name">Seekhow Blog</p>
+            <p class="sideBox__motto">seekhowqiuhao@gmail.com</p>
             <ul class="sideBox__iconList">
                 <li v-for="icon in iconList" class="sideBox__iconItem" :key="icon.name">
                     <a :href="icon.href"><i class="iconfont" :class="'icon-'+icon.name"></i></a>
@@ -46,7 +46,7 @@ export default {
             scrollTop: 0,
             iconList: [{
                 name: 'github',
-                href: 'https://github.com/BUPT-HJM',
+                href: 'https://github.com/seekhow',
             }],
         };
     },
@@ -133,7 +133,6 @@ export default {
     &__img
       width 150px
       border-radius 50%
-      box-shadow 0 0 2px black
       margin-top 10px
       cursor pointer
     &__name
