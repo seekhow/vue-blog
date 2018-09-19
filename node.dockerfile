@@ -1,6 +1,6 @@
 FROM node:8.9.2
 
-MAINTAINER https://github.com/BUPT-HJM
+MAINTAINER https://github.com/seekhow
 
 ENV HOME=/home/app
 
