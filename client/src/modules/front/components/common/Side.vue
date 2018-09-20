@@ -2,7 +2,7 @@
     <div class="sideBox">
         <div class="sideBox__mask" :class="{ 'sideBox__mask--show': sideBoxOpen}" @click="closeSideBox"></div>
         <div class="sideBox__main" :class="{ 'sideBox__main--open': sideBoxOpen}">
-            <img src="http://image.jiantuku.com/17-7-23/66561382.jpg?e=1537369210&token=el7kgPgYzpJoB23jrChWJ2gV3HpRl0VCzFn8rKKv:u06Y6hG2qua71N7w41I09ON4SYY=" alt="" class="sideBox__img" @click="backToIndex">
+            <img src="http://otjjfdfdp.bkt.clouddn.com/17-7-28/36406235.jpg" alt="" class="sideBox__img" @click="backToIndex">
             <p class="sideBox__name">Seekhow Blog</p>
             <p class="sideBox__motto">seekhowqiuhao@gmail.com</p>
             <ul class="sideBox__iconList">
