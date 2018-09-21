@@ -11,7 +11,7 @@
             </transition>
         </div>
         <footer class="footer">
-            <p>Created by <a href="https://github.com/seekhow/vue-blog">vue-blog</a></p>
+            <p>Powered by <a href="https://github.com/seekhow/vue-blog">seekhow</a> forked from <a href="https://github.com/BUPT-HJM/vue-blog">BUPT-HJM/vue-blog</a></p>
         </footer>
         <!-- 防止disqus导致首页报错 -->
         <div id="disqus_thread"></div>

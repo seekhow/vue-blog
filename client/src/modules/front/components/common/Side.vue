@@ -1,125 +1,125 @@
 <template>
-    <div class="sideBox">
-        <div class="sideBox__mask" :class="{ 'sideBox__mask--show': sideBoxOpen}" @click="closeSideBox"></div>
-        <div class="sideBox__main" :class="{ 'sideBox__main--open': sideBoxOpen}">
-            <img src="http://otjjfdfdp.bkt.clouddn.com/17-7-28/36406235.jpg" alt="" class="sideBox__img" @click="backToIndex">
-            <p class="sideBox__name">Seekhow Blog</p>
-            <p class="sideBox__motto">seekhowqiuhao@gmail.com</p>
-            <ul class="sideBox__iconList">
-                <li v-for="icon in iconList" class="sideBox__iconItem" :key="icon.name">
-                    <a :href="icon.href"><i class="iconfont" :class="'icon-'+icon.name"></i></a>
-                </li>
-            </ul>
-            <ul class="sideBox__tagList" v-if="isInList">
-                <li v-for="tag in tags" :key="tag.id" class="sideBox__tagItem" :class="{ 'sideBox__tagItem--active': (typeof selectTags.find(function(e){return e.id == tag.id}) !== 'undefined')}" @click="toggleSelectTags({id:tag.id, name:tag.name})">
-                    <span>{{tag.name}}</span>
-                </li>
-            </ul>
-            <div class="categoryBox" v-if="!isInList" :class="{ 'categoryBox--fixed': (scrollTop > 270)}" ref="categoryBox">
-                <p class="categoryBox__title">文章目录</p>
-                <ul class="categoryBox__list">
-                    <li v-for="item in category" :key="item.text" :class="'categoryBox__'+item.tagName">
-                        <a :href="item.href">{{item.text}}</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+  <div class="sideBox">
+    <div class="sideBox__mask" :class="{ 'sideBox__mask--show': sideBoxOpen}" @click="closeSideBox"></div>
+    <div class="sideBox__main" :class="{ 'sideBox__main--open': sideBoxOpen}">
+      <img src="http://otjjfdfdp.bkt.clouddn.com/17-7-28/36406235.jpg" alt="" class="sideBox__img" @click="backToIndex">
+      <p class="sideBox__name">Seekhow Blog</p>
+      <p class="sideBox__motto">seekhowqiuhao@gmail.com</p>
+      <ul class="sideBox__iconList">
+        <li v-for="icon in iconList" class="sideBox__iconItem" :key="icon.name">
+          <a :href="icon.href"><i class="iconfont" :class="'icon-'+icon.name"></i></a>
+        </li>
+      </ul>
+      <ul class="sideBox__tagList" v-if="isInList">
+        <li v-for="tag in tags" :key="tag.id" class="sideBox__tagItem" :class="{ 'sideBox__tagItem--active': (typeof selectTags.find(function(e){return e.id == tag.id}) !== 'undefined')}" @click="toggleSelectTags({id:tag.id, name:tag.name})">
+          <span>{{tag.name}}</span>
+        </li>
+      </ul>
+      <div class="categoryBox" v-if="!isInList" :class="{ 'categoryBox--fixed': (scrollTop > 270)}" ref="categoryBox">
+        <p class="categoryBox__title">文章目录</p>
+        <ul class="categoryBox__list">
+          <li v-for="item in category" :key="item.text" :class="'categoryBox__'+item.tagName">
+            <a :href="item.href">{{item.text}}</a>
+          </li>
+        </ul>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
 import tagApi from 'api/tag.js';
 import throttle from 'lib/throttle.js';
 import {
-    mapGetters,
-    mapMutations,
-    mapActions,
+  mapGetters,
+  mapMutations,
+  mapActions,
 } from 'vuex';
 
 export default {
-    name: 'sideBox',
-    data() {
-        return {
-            tagList: [],
-            // selectTagArr: [],
-            // sideBoxOpen: false,
-            scrollTop: 0,
-            iconList: [{
-                name: 'github',
-                href: 'https://github.com/seekhow',
-            }],
-        };
+  name: 'sideBox',
+  data() {
+    return {
+      tagList: [],
+      // selectTagArr: [],
+      // sideBoxOpen: false,
+      scrollTop: 0,
+      iconList: [{
+        name: 'github',
+        href: 'https://github.com/seekhow',
+      }],
+    };
+  },
+  props: {
+    isInList: {
+      type: Boolean,
+      required: true,
     },
-    props: {
-        isInList: {
-            type: Boolean,
-            required: true,
-        },
-        category: {
-            type: Array,
-            required: false,
-        },
+    category: {
+      type: Array,
+      required: false,
     },
-    computed: {
-        ...mapGetters([
-            'tags',
-            'selectTags',
-            'sideBoxOpen',
-        ]),
+  },
+  computed: {
+    ...mapGetters([
+      'tags',
+      'selectTags',
+      'sideBoxOpen',
+    ]),
+  },
+  created() {
+    if (typeof window === 'undefined') {
+      return;
+    }
+    console.log('side created');
+    if (!this.isInList) {
+      window.onscroll = throttle(this.getScrollTop, 30);
+    }
+    if (this.isInList && this.tags.length === 0) {
+      this.getAllTags();
+    }
+  },
+  beforeDestroy() {
+    console.log('side beforeDestroy');
+    window.onscroll = null;
+  },
+  methods: {
+    ...mapMutations({
+      setSelectTags: 'SET_SELECT_TAGS',
+      toggleSideBox: 'TOGGLE_SIDEBOX',
+      closeSideBox: 'CLOSE_SIDEBOX',
+      toggleSelectTags: 'TOGGLE_SELECT_TAGS',
+    }),
+    ...mapActions([
+      'getAllTags',
+    ]),
+    backToIndex() {
+      this.$router.push('/');
     },
-    created() {
-        if (typeof window === 'undefined') {
+    getScrollTop() {
+      let scrollTop = 0,
+        bodyScrollTop = 0,
+        documentScrollTop = 0;
+      if (document.body) {
+        // 如果屏幕宽度小于850就直接return,不再去获取滚动值
+        if (document.body.clientWidth < 850) {
             return;
         }
-        console.log('side created');
-        if (!this.isInList) {
-            window.onscroll = throttle(this.getScrollTop, 30);
-        }
-        if (this.isInList && this.tags.length === 0) {
-            this.getAllTags();
-        }
+        bodyScrollTop = document.body.scrollTop;
+      }
+      if (document.documentElement) {
+        documentScrollTop = document.documentElement.scrollTop;
+      }
+      console.log(this.scrollTop);
+      this.scrollTop = (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;
+      // console.log(this.scrollTop)
     },
-    beforeDestroy() {
-        console.log('side beforeDestroy');
-        window.onscroll = null;
+    clearSelectTagArr() {
+      this.setSelectTags([]);
     },
-    methods: {
-        ...mapMutations({
-            setSelectTags: 'SET_SELECT_TAGS',
-            toggleSideBox: 'TOGGLE_SIDEBOX',
-            closeSideBox: 'CLOSE_SIDEBOX',
-            toggleSelectTags: 'TOGGLE_SELECT_TAGS',
-        }),
-        ...mapActions([
-            'getAllTags',
-        ]),
-        backToIndex() {
-            this.$router.push('/');
-        },
-        getScrollTop() {
-            let scrollTop = 0,
-                bodyScrollTop = 0,
-                documentScrollTop = 0;
-            if (document.body) {
-                // 如果屏幕宽度小于850就直接return,不再去获取滚动值
-                if (document.body.clientWidth < 850) {
-                    return;
-                }
-                bodyScrollTop = document.body.scrollTop;
-            }
-            if (document.documentElement) {
-                documentScrollTop = document.documentElement.scrollTop;
-            }
-            console.log(this.scrollTop);
-            this.scrollTop = (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;
-            // console.log(this.scrollTop)
-        },
-        clearSelectTagArr() {
-            this.setSelectTags([]);
-        },
-    },
-    watch: {
-    },
+  },
+  watch: {
+  },
 };
 </script>
 
