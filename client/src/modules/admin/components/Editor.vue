@@ -111,8 +111,8 @@ export default {
       this.$store.dispatch('createArticle', info).then((res) => {
         if (res.data.success) {
           this.$message({
-              message: '创建成功',
-              type: 'success',
+            message: '创建成功',
+            type: 'success',
           });
           // 这里不再需要getAllArticles因为有watch函数监听变化
           // this.getAllArticles().then(res => {
