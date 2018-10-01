@@ -16,7 +16,10 @@
         </li>
       </ul> -->
       <div class="categoryBox" v-if="!isInList" :class="{ 'categoryBox--fixed': (scrollTop > 270)}" ref="categoryBox">
-        <p class="categoryBox__title">文章目录</p>
+        <div class="categoryBox__header">
+          <p class="categoryBox__title">文章目录</p>
+          <p class="categoryBox__title"><router-link to="/" active-class="categoryBox__title">返回主页</router-link></p>
+        </div>
         <ul class="categoryBox__list">
           <li v-for="item in category" :key="item.text" :class="'categoryBox__'+item.tagName">
             <a :href="item.href">{{item.text}}</a>
@@ -178,12 +181,17 @@ export default {
       padding-left 20px
       padding-right 15px
       will-change transform
+      &__header
+        display flex
+        flex-direction row
+        justify-content space-between
       &__title
         margin-top 15px
         margin-bottom 10px
         font-weight 400
         color #808080
         font-size 18px
+        text-decoration none
       ul
         list-style none
       li
