@@ -48,7 +48,7 @@ export default {
     z-index 3
     &__main-icon
       text-decoration none
-      color $blue
+      color #e91e63
       font-weight 600
       font-size 20px
     &__menu-button
