@@ -1,17 +1,17 @@
 <template>
-    <div class="article">
-        <div class="article__loading" v-if="isLoading">
-            <Loading :loadingMsg='loadingMsg'></Loading>
-        </div>
-        <Side :isInList='false' :category='category'></Side>
-        <div class="article__main" v-if="!isLoading">
-            <h1 class="article__title">{{currentPost.title}}</h1>
-            <p class="article__time">{{currentPost.createTime}}</p>
-            <div class="article__content markdown-body" v-html="currentPostCompile" ref="post">
-            </div>
-            <Comment :sourceId="currentPost.id"></Comment>
-        </div>
+  <div class="article">
+    <div class="article__loading" v-if="isLoading">
+      <Loading :loadingMsg='loadingMsg'></Loading>
     </div>
+    <Side :isInList='false' :category='category'></Side>
+    <div class="article__main" v-if="!isLoading">
+      <h1 class="article__title">{{currentPost.title}}</h1>
+      <p class="article__time">{{currentPost.createTime}}</p>
+      <div class="article__content markdown-body" v-html="currentPostCompile" ref="post">
+      </div>
+      <Comment :sourceId="currentPost.id"></Comment>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -29,73 +29,73 @@ import {
 export default {
     name: 'article_component', // 防止和html元素重名
     data() {
-        return {
-            category: [],
-            isLoading: false,
-            loadingMsg: '加载中...',
-        };
+      return {
+        category: [],
+        isLoading: false,
+        loadingMsg: '加载中...',
+      };
     },
     computed: {
-        ...mapGetters([
-            'currentPost',
-            'currentPostCompile',
-        ]),
-        compiledPost() {
-            return this.compiledMarkdown(this.$store.state.currentPost.content);
-        },
+      ...mapGetters([
+        'currentPost',
+        'currentPostCompile',
+      ]),
+      compiledPost() {
+        return this.compiledMarkdown(this.$store.state.currentPost.content);
+      },
     },
     components: {
-        Side,
-        Loading,
-        Comment,
+      Side,
+      Loading,
+      Comment,
     },
     beforeMount() {
     // 如果想等说明数据已经拿到，就没必要进行再去取数据了
-        if (this.currentPost.id === this.$route.params.id) {
-            this.$nextTick(() => {
-                // 提取文章标签，生成目录
-                Array.from(this.$refs.post.querySelectorAll('h1,h2,h3,h4,h5,h6')).forEach((item, index) => {
-                    item.id = item.localName + '-' + index;
-                    this.category.push({
-                        tagName: item.localName,
-                        text: item.innerText,
-                        href: '#' + item.localName + '-' + index,
-                    });
-                });
+      if (this.currentPost.id === this.$route.params.id) {
+        this.$nextTick(() => {
+          // 提取文章标签，生成目录
+          Array.from(this.$refs.post.querySelectorAll('h1,h2,h3,h4,h5,h6')).forEach((item, index) => {
+            item.id = item.localName + '-' + index;
+            this.category.push({
+              tagName: item.localName,
+              text: item.innerText,
+              href: '#' + item.localName + '-' + index,
             });
-            return;
-        }
-        this.isLoading = true;
-        this.getPost(this.$route.params.id).then(() => {
-            document.querySelector('title').innerText = this.currentPost.title;
-            this.isLoading = false;
-            this.$nextTick(() => {
-                // 提取文章标签，生成目录
-                Array.from(this.$refs.post.querySelectorAll('h1,h2,h3,h4,h5,h6')).forEach((item, index) => {
-                    item.id = item.localName + '-' + index;
-                    this.category.push({
-                        tagName: item.localName,
-                        text: item.innerText,
-                        href: '#' + item.localName + '-' + index,
-                    });
-                });
-            });
+          });
         });
+        return;
+      }
+      this.isLoading = true;
+      this.getPost(this.$route.params.id).then(() => {
+        document.querySelector('title').innerText = this.currentPost.title;
+        this.isLoading = false;
+        this.$nextTick(() => {
+          // 提取文章标签，生成目录
+          Array.from(this.$refs.post.querySelectorAll('h1,h2,h3,h4,h5,h6')).forEach((item, index) => {
+            item.id = item.localName + '-' + index;
+            this.category.push({
+              tagName: item.localName,
+              text: item.innerText,
+              href: '#' + item.localName + '-' + index,
+            });
+          });
+        });
+      });
     },
     preFetch(store) {
-        return store.dispatch('getPost', store.state.route.params.id);
+      return store.dispatch('getPost', store.state.route.params.id);
     },
     mounted() {
     // this.compiledPost = this.compiledMarkdown(this.currentPost.content)
     // this.isLoading = false
     },
     methods: {
-        ...mapActions([
-            'getPost',
-        ]),
-        compiledMarkdown(value) {
-            return marked(value);
-        },
+      ...mapActions([
+        'getPost',
+      ]),
+      compiledMarkdown(value) {
+        return marked(value);
+      },
     },
 };
 </script>
@@ -115,6 +115,7 @@ export default {
   &__title
     font-size 24px
     word-break break-all
+    color #E91E63;
   &__time
     color #7f8c8d
     font-weight 400
