@@ -12,9 +12,9 @@
       </li>
       <template v-if="posts.length!==0 && isLoading == false">
         <li v-for="article in posts" class="list__article__item" :key="article.id">
-          <h1 class="list__article__item__title"><router-link :to="'article/'+article.id">{{ article.title }}</router-link></h1>
+          <h1 class="list__article__item__title"><router-link :to="'/article/'+article.id">{{ article.title }}</router-link></h1>
           <div class="list__article__item__info">
-            <p class="list__article__item__time">{{article.createTime}}</p>
+            <p class="list__article__item__time">{{ article.createTime }}</p>
             <div class="list__article__item__abstract markdown-body" v-html="compiledMarkdown(article.abstract)"></div>
             <!-- <span v-for="tag in article.tags"> {{tag.name}}</span> -->
             <p>
