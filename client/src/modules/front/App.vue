@@ -1,31 +1,31 @@
 <template>
-    <div id="app">
-        <div class="wrap">
-            <Top></Top>
-            <transition name="fade" mode="out-in">
-                <!-- keep-alive排除article -->
-                <keep-alive exclude="article_component">
-                    <router-view>
-                    </router-view>
-                </keep-alive>
-            </transition>
-        </div>
-        <footer class="footer">
-            <p>Powered by <a href="https://github.com/seekhow/vue-blog">seekhow</a> forked from <a href="https://github.com/BUPT-HJM/vue-blog">BUPT-HJM/vue-blog</a></p>
-        </footer>
-        <!-- 防止disqus导致首页报错 -->
-        <div id="disqus_thread"></div>
+  <div id="app">
+    <div class="wrap">
+      <Top></Top>
+      <transition name="fade" mode="out-in">
+        <!-- keep-alive排除article -->
+        <keep-alive exclude="article_component">
+          <router-view>
+          </router-view>
+        </keep-alive>
+      </transition>
     </div>
+    <footer class="footer">
+      <p>Powered by <a href="https://github.com/seekhow/vue-blog">seekhow</a> forked from <a href="https://github.com/BUPT-HJM/vue-blog">BUPT-HJM/vue-blog</a></p>
+    </footer>
+    <!-- 防止disqus导致首页报错 -->
+    <div id="disqus_thread"></div>
+  </div>
 </template>
 
 <script>
 import Top from './components/common/Top.vue';
 
 export default {
-    name: 'app',
-    components: {
-        Top,
-    },
+  name: 'app',
+  components: {
+    Top,
+  },
 };
 </script>
 

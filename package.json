@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "axios": "^0.16.0",
-    "element-ui": "^1.2.7",
+    "element-ui": "~2.4.8",
     "fastclick": "^1.0.6",
     "font-awesome": "^4.7.0",
     "highlight.js": "^9.10.0",

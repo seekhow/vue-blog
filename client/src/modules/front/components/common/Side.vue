@@ -10,11 +10,11 @@
           <a :href="icon.href"><i class="iconfont" :class="'icon-'+icon.name"></i></a>
         </li>
       </ul>
-      <ul class="sideBox__tagList" v-if="isInList">
+      <!-- <ul class="sideBox__tagList" v-if="isInList">
         <li v-for="tag in tags" :key="tag.id" class="sideBox__tagItem" :class="{ 'sideBox__tagItem--active': (typeof selectTags.find(function(e){return e.id == tag.id}) !== 'undefined')}" @click="toggleSelectTags({id:tag.id, name:tag.name})">
           <span>{{tag.name}}</span>
         </li>
-      </ul>
+      </ul> -->
       <div class="categoryBox" v-if="!isInList" :class="{ 'categoryBox--fixed': (scrollTop > 270)}" ref="categoryBox">
         <p class="categoryBox__title">文章目录</p>
         <ul class="categoryBox__list">

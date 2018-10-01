@@ -6,7 +6,7 @@
     <ul class="list__tag">
       <li v-for="tag in tagList" :key="tag.id" @click="toggleSelectFn(tag.id)" class="list__tag__item" :class="{ 'list__tag__item--active': selectTagArr.includes(tag.id)}">
         <i class="fa fa-tag" aria-hidden="true"></i>&nbsp;&nbsp;
-        <span>{{tag.name}}</span>
+        <span>{{ tag.name }}</span>
         <i class="fa fa-trash-o" aria-hidden="true" @click.stop="deleteTagFn(tag.id)"></i>
       </li>
     </ul>
@@ -16,11 +16,9 @@
         <h1 class="list__article__item__title">{{ article.title | cutTitle}}</h1>
         <div class="list__article__item__info">
           <i class="fa fa-tag" aria-hidden="true"></i>
-          <span v-for="tag in article.tags" :key="tag.id"> {{tag.name}}</span>
+          <span v-for="tag in article.tags" :key="tag.id"> {{ tag.name }}</span>
           <p class="list__article__item__createTime"><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp; {{article.createTime}}</p>
-          <p class="list__article__item__publish" v-if="article.publish">
-            已发布
-          </p>
+          <p class="list__article__item__publish" v-if="article.publish">已发布</p>
         </div>
       </li>
       <pagination :curPage='curPage' :allPage='allPage' @changePage='changePage'></pagination>
