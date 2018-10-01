@@ -7,7 +7,7 @@
       <p class="sideBox__motto">seekhowqiuhao@gmail.com</p>
       <ul class="sideBox__iconList">
         <li v-for="icon in iconList" class="sideBox__iconItem" :key="icon.name">
-          <a :href="icon.href"><i class="iconfont" :class="'icon-'+icon.name"></i></a>
+          <a :href="icon.href" target="__blank"><i class="iconfont" :class="'icon-'+icon.name"></i></a>
         </li>
       </ul>
       <!-- <ul class="sideBox__tagList" v-if="isInList">
