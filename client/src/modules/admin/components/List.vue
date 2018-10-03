@@ -4,11 +4,23 @@
       <i class="fa fa-tags" aria-hidden="true"></i>&nbsp;标签
     </div>
     <ul class="list__tag">
-      <li v-for="tag in tagList" :key="tag.id" @click="toggleSelectFn(tag.id)" class="list__tag__item" :class="{ 'list__tag__item--active': selectTagArr.includes(tag.id)}">
+      <!-- <li v-for="tag in tagList" :key="tag.id" @click="toggleSelectFn(tag.id)" class="list__tag__item" :class="{ 'list__tag__item--active': selectTagArr.includes(tag.id)}">
         <i class="fa fa-tag" aria-hidden="true"></i>&nbsp;&nbsp;
         <span>{{ tag.name }}</span>
         <i class="fa fa-trash-o" aria-hidden="true" @click.stop="deleteTagFn(tag.id)"></i>
-      </li>
+      </li> -->
+      <el-tag
+        closable
+        v-for="(tag, index) in tagList"
+        :key="tag.id"
+        @click="toggleSelectFn(tag.id)"
+        @close="deleteTagFn(tag.id)"
+        :hit="true"
+        class="list__newTag"
+        :type="randomType(index)"
+      >
+        {{ tag.name }}
+      </el-tag>
     </ul>
     <ul class="list__article">
       <li @click="createArticle" class="list__article__button"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;新建文章</li>
@@ -73,6 +85,10 @@ export default {
       setCurPage: 'SET_CUR_PAGE',
       toggleSelect: 'TOGGLE_SELECT_TAG',
     }),
+    randomType(index) {
+      const types = ['', 'success', 'info', 'warning', 'danger'];
+      return types[index % 5];
+    },
     toggleSelectFn(id) {
       this.toggleSelect(id);
     },
@@ -177,11 +193,13 @@ export default {
   padding 15px
   &__top-title
     width 100%
-    font-size 25px
+    font-size 18px
     padding 10px
     color $blue
     span
       padding-left 15px
+  &__newTag
+    margin 2px 2px
   &__tag
     height 140px
     overflow auto
@@ -208,10 +226,10 @@ export default {
     margin-top 5px
     list-style none
   &__article__item__title
-    font-size 22px
+    font-size 18px
   &__article__button
     padding 10px
-    font-size 25px
+    font-size 18px
     color $blue
     cursor pointer
   &__article__item
