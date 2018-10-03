@@ -49,6 +49,7 @@ import {
 } from 'vuex';
 
 function dateFormat(str) {
+  if (typeof str === 'object') return str;
   let newStr = str;
   newStr = newStr.replace('年', '-');
   newStr = newStr.replace('月', '-');
@@ -156,7 +157,6 @@ export default {
         // return;
         abstract = content.length > 100 ? content.subStr(0, 100) : content;
       }
-      console.log(title, content, abstract);
       const article = {
         title: title,
         content: content,
@@ -168,7 +168,6 @@ export default {
         id: this.currentArticle.id,
         article,
       }).then((res) => {
-        console.log('save article');
         if (res.data.success && button) {
           this.$message({
             message: '保存成功',
@@ -176,7 +175,6 @@ export default {
           });
         }
       }).catch((err) => {
-        console.log(err);
         this.$message.error(err.response.data.error);
       });
     }),
@@ -191,7 +189,6 @@ export default {
           });
         }
       }).catch((err) => {
-        console.log(err);
         this.$message.error(err.response.data.error);
       });
     },
@@ -233,7 +230,6 @@ export default {
             this.clearSelect();
           }
         }).catch((err) => {
-          console.log(err);
           this.$message.error(err.response.data.error);
       });
     }).catch(() => {
@@ -275,7 +271,6 @@ export default {
       }
     },
     deleteCurrentTag(index) {
-      console.log('tagIndex:', index);
       this.$confirm('此操作将永久删除该标签, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -297,7 +292,6 @@ export default {
       // 监听vuex current变化改变组件data
       this.articleTitle = val.title;
       this.articleContent = val.content;
-      console.log(val.time);
       this.time = dateFormat(val.time);
       this.articleTag = '';
       if (oldVal.id !== val.id && simplemde.isPreviewActive()) {
@@ -313,9 +307,6 @@ export default {
           title: val,
         });
       }
-    },
-    time(val) {
-      console.log(val);
     }
   },
 };
