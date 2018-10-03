@@ -1,54 +1,54 @@
 <template>
-    <div class="login">
-        <div class="login__header">
-            <h1 class="login__title">博客后台登录</h1>
-        </div>
-        <div class="login__item">
-            <input type="text" placeholder="用户名" v-model="username">
-        </div>
-        <div class="login__item">
-            <input type="password" placeholder="密码" v-model="password" @keyup.enter="login">
-        </div>
-        <div class="login__item">
-            <button @click="login">登录</button>
-        </div>
+  <div class="login">
+    <div class="login__header">
+      <h1 class="login__title">博客后台登录</h1>
     </div>
+    <div class="login__item">
+      <input type="text" placeholder="用户名" v-model="username">
+    </div>
+    <div class="login__item">
+      <input type="password" placeholder="密码" v-model="password" @keyup.enter="login">
+    </div>
+    <div class="login__item">
+      <button @click="login">登录</button>
+    </div>
+  </div>
 </template>
 
-
 <script>
-import {Message} from 'element-ui';
+import { Message } from 'element-ui';
 import md5 from 'md5';
 export default {
-    name: 'login',
-    data () {
-        return {
-            username: '',
-            password: '',
-        };
+  name: 'login',
+  data () {
+    return {
+      username: '',
+      password: '',
+    };
+  },
+  methods: {
+    async login() {
+      let info = {
+        username: this.username,
+        password: md5(this.password).toUpperCase(),
+      };
+      let res;
+      try {
+        res = await this.$store.dispatch('createToken', info);
+      } catch (error) {
+        return this.$message.error(error.response.data.error);
+      }
+      if (res.data.success) {
+        this.$message({
+          message: '登陆成功',
+          type: 'success',
+        });
+        this.$router.push('/admin');
+      }
     },
-    methods: {
-        login() {
-            let info = {
-                username: this.username,
-                password: md5(this.password).toUpperCase(),
-            };
-            this.$store.dispatch('createToken', info).then((res) => {
-                if (res.data.success) {
-                    this.$message({
-                        message: '登陆成功',
-                        type: 'success',
-                    });
-                    this.$router.push('/admin');
-                }
-            }).catch((err) => {
-                this.$message.error(err.response.data.error);
-            });
-        },
-    },
+  },
 };
 </script>
-
 
 <style lang="stylus">
 @import '../assets/stylus/_settings.styl'
