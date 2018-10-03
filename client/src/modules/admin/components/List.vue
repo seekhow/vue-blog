@@ -4,11 +4,6 @@
       <i class="fa fa-tags" aria-hidden="true"></i>&nbsp;标签
     </div>
     <ul class="list__tag">
-      <!-- <li v-for="tag in tagList" :key="tag.id" @click="toggleSelectFn(tag.id)" class="list__tag__item" :class="{ 'list__tag__item--active': selectTagArr.includes(tag.id)}">
-        <i class="fa fa-tag" aria-hidden="true"></i>&nbsp;&nbsp;
-        <span>{{ tag.name }}</span>
-        <i class="fa fa-trash-o" aria-hidden="true" @click.stop="deleteTagFn(tag.id)"></i>
-      </li> -->
       <el-tag
         closable
         v-for="(tag, index) in tagList"
@@ -25,13 +20,13 @@
     <ul class="list__article">
       <li @click="createArticle" class="list__article__button"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;新建文章</li>
       <li v-for="(article, index) in articleList" :key="article.id" @click="switchArticle(index)" class="list__article__item" :class="{'list__article__item--active': currentArticle.index == index}">
-        <h1 class="list__article__item__title">{{ article.title | cutTitle}}</h1>
-        <div class="list__article__item__info">
+        <h1 class="list__article__item__title"  :class="{'list__article__item__title--active': currentArticle.index == index}">{{ article.title | cutTitle}}</h1>
+        <p class="list__article__item__publish" v-if="article.publish">已发布</p>
+        <!-- <div class="list__article__item__info">
           <i class="fa fa-tag" aria-hidden="true"></i>
           <span v-for="tag in article.tags" :key="tag.id"> {{ tag.name }}</span>
           <p class="list__article__item__createTime"><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp; {{article.lastEditTime}}</p>
-          <p class="list__article__item__publish" v-if="article.publish">已发布</p>
-        </div>
+        </div> -->
       </li>
       <pagination :curPage='curPage' :allPage='allPage' @changePage='changePage'></pagination>
     </ul>
@@ -168,7 +163,7 @@ export default {
     },
   },
   mounted() {
-    this.getAllArticles().then(res => {
+    this.getAllArticles({ limit: 10 }).then(res => {
       console.log('allPage:', this.allPage);
       console.log('curPage:', this.curPage);
     });
@@ -221,12 +216,13 @@ export default {
     height 36px
   &__tag__item--active
     background-color $orange
-
   &__article
     margin-top 5px
     list-style none
   &__article__item__title
-    font-size 18px
+    font-size 16px
+  &__article__item__title--active
+    color red
   &__article__button
     padding 10px
     font-size 18px
@@ -235,13 +231,14 @@ export default {
   &__article__item
     position relative
     width 100%
-    height 100px
-    background-color $grey-bg
-    padding 15px
+    height 30px
+    // background-color $grey-bg
+    // padding 15px
     margin-bottom 5px
     cursor pointer
   &__article__item--active
-    border-left 10px solid $blue
+    // border-left 10px solid $blue
+    color: $red
   &__article__item__info
     position absolute
     bottom 5px
@@ -254,8 +251,8 @@ export default {
     word-break all
   &__article__item__publish
     position absolute
-    top -45px
-    right -3px
+    right 0px
+    top 0px
     font-size 13px
     color $grey-publish
 </style>

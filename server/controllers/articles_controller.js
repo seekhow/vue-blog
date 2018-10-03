@@ -48,7 +48,7 @@ export async function createArticle(ctx) {
 export async function getAllArticles(ctx) {
   const tag = ctx.query.tag;
   const page = +ctx.query.page;
-  const limit = +ctx.query.limit || 4;
+  const limit = +ctx.query.limit || 6;
   let skip = 0;
   let articleArr;
   let allPage;
