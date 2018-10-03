@@ -2,7 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Axios from 'axios';
 
-import { MessageBox, Message } from 'element-ui';
+import { MessageBox, Message, DatePicker } from 'element-ui';
 // import 'element-ui/lib/theme-chalk/index.css';
 
 import './assets/stylus/main.styl';
@@ -13,6 +13,7 @@ import store from './store';
 
 Vue.component(MessageBox.name, MessageBox);
 Vue.component(Message.name, Message);
+Vue.component(DatePicker.name, DatePicker);
 // 按需引入element-ui相关弹出
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$alert = MessageBox.alert;

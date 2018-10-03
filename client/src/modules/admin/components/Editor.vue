@@ -1,9 +1,17 @@
 <template>
   <div class="editor-box">
     <p class="editor-box__title"><i class="fa fa-pencil-square" aria-hidden="true"></i>&nbsp;&nbsp;请开始你的表演</p>
-    <div class="editor-box__input-box">
-      <label for="title">文章标题:</label>
-      <input type="text" placeholder="文章标题" v-model="articleTitle" class="editor-box__input" id="title">
+    <div class="editor-box__row editor-box__input-box">
+      <div>
+        <label for="title">文章标题:</label>
+        <input type="text" placeholder="文章标题" v-model="articleTitle" class="editor-box__input" id="title">
+      </div>
+      <el-date-picker
+        class="editor-box__time"
+        v-model="time"
+        type="datetime"
+        placeholder="选择日期时间">
+      </el-date-picker>
     </div>
     <div class="editor-box__input-box">
       <label for="title">添加标签:</label>
@@ -40,6 +48,14 @@ import {
   mapMutations,
 } from 'vuex';
 
+function dateFormat(str) {
+  let newStr = str;
+  newStr = newStr.replace('年', '-');
+  newStr = newStr.replace('月', '-');
+  newStr = newStr.replace('日', '-');
+  return new Date(newStr);
+}
+
 let simplemde;
 export default {
   name: 'editor',
@@ -49,6 +65,7 @@ export default {
       tags: [],
       articleTitle: '',
       articleContent: '',
+      time: ''
     };
   },
   computed: {
@@ -60,6 +77,7 @@ export default {
   mounted: function () {
   // dom渲染完成后置入编辑器当前文章内容
     this.$nextTick(() => {
+      this.time = this.currentArticle.time;
       this.articleTitle = this.currentArticle.title;
       this.articleContent = this.currentArticle.content;
       simplemde.value(this.articleContent);
@@ -144,7 +162,7 @@ export default {
         content: content,
         abstract: abstract,
         tags: this.currentArticle.tags,
-        lastEditTime: new Date(),
+        lastEditTime: this.time,
       };
       this.$store.dispatch('saveArticle', {
         id: this.currentArticle.id,
@@ -231,8 +249,8 @@ export default {
       } else {
         if (this.currentArticle.tags.length >= 5) {
             this.$message({
-                type: 'error',
-                message: '不能创建超过5个标签',
+              type: 'error',
+              message: '不能创建超过5个标签',
             });
             return;
         }
@@ -279,6 +297,8 @@ export default {
       // 监听vuex current变化改变组件data
       this.articleTitle = val.title;
       this.articleContent = val.content;
+      console.log(val.time);
+      this.time = dateFormat(val.time);
       this.articleTag = '';
       if (oldVal.id !== val.id && simplemde.isPreviewActive()) {
         simplemde.togglePreview();
@@ -294,6 +314,9 @@ export default {
         });
       }
     },
+    time(val) {
+      console.log(val);
+    }
   },
 };
 </script>
@@ -314,9 +337,15 @@ export default {
       font-size 25px
       color $blue
       padding 10px
+    &__row
+      display flex
+      flex-direction row
+      align-items center
     &__input-box
       font-size 17px
       margin 15px 0
+    &__time
+      margin-left 20px
     &__tagList
       list-style none
       overflow hidden
